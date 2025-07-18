@@ -1,0 +1,112 @@
+[
+  {
+    "Id": 1,
+    "title": "Complete project proposal",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2024-01-15",
+    "listId": "1",
+    "categoryId": "1",
+    "createdAt": "2024-01-10T09:00:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 2,
+    "title": "Review team performance metrics",
+    "completed": true,
+    "priority": "medium",
+    "dueDate": "2024-01-12",
+    "listId": "1",
+    "categoryId": "1",
+    "createdAt": "2024-01-08T10:30:00Z",
+    "completedAt": "2024-01-12T14:20:00Z"
+  },
+  {
+    "Id": 3,
+    "title": "Buy groceries for the week",
+    "completed": false,
+    "priority": "low",
+    "dueDate": "2024-01-14",
+    "listId": "2",
+    "categoryId": "2",
+    "createdAt": "2024-01-09T08:15:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 4,
+    "title": "Call dentist for appointment",
+    "completed": false,
+    "priority": "medium",
+    "dueDate": "2024-01-16",
+    "listId": "2",
+    "categoryId": "3",
+    "createdAt": "2024-01-11T11:45:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 5,
+    "title": "Finish reading 'Atomic Habits'",
+    "completed": false,
+    "priority": "low",
+    "dueDate": "2024-01-20",
+    "listId": "3",
+    "categoryId": "4",
+    "createdAt": "2024-01-05T19:30:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 6,
+    "title": "Update resume and LinkedIn profile",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2024-01-18",
+    "listId": "1",
+    "categoryId": "1",
+    "createdAt": "2024-01-10T16:20:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 7,
+    "title": "Plan weekend hiking trip",
+    "completed": true,
+    "priority": "medium",
+    "dueDate": "2024-01-13",
+    "listId": "3",
+    "categoryId": "5",
+    "createdAt": "2024-01-07T12:00:00Z",
+    "completedAt": "2024-01-13T09:15:00Z"
+  },
+  {
+    "Id": 8,
+    "title": "Organize digital photos",
+    "completed": false,
+    "priority": "low",
+    "dueDate": null,
+    "listId": "2",
+    "categoryId": "2",
+    "createdAt": "2024-01-06T20:45:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 9,
+    "title": "Prepare presentation for Monday meeting",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2024-01-14",
+    "listId": "1",
+    "categoryId": "1",
+    "createdAt": "2024-01-11T13:30:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 10,
+    "title": "Schedule annual health checkup",
+    "completed": false,
+    "priority": "medium",
+    "dueDate": "2024-01-25",
+    "listId": "2",
+    "categoryId": "3",
+    "createdAt": "2024-01-08T17:10:00Z",
+    "completedAt": null
+  }
+]
