@@ -307,4 +307,5 @@ transition={{ duration: 0.2 }}
   );
 };
 
+export { InlineTaskModal };
 export default QuickAddTask;

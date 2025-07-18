@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { motion } from "framer-motion";
 import TaskList from "@/components/organisms/TaskList";
-import QuickAddTask from "@/components/molecules/QuickAddTask";
+import QuickAddTask, { InlineTaskModal } from "@/components/molecules/QuickAddTask";
 import ApperIcon from "@/components/ApperIcon";
 import { taskService } from "@/services/api/taskService";
 import { listService } from "@/services/api/listService";
@@ -161,19 +161,13 @@ const Dashboard = () => {
 <TaskList searchTerm={searchTerm} showCompleted={false} />
       </motion.div>
 
-      {/* Quick Add Task Modal */}
-      {showAddTask && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="w-full max-w-md">
-            <QuickAddTask 
-              listId="1" 
-              onTaskAdded={handleTaskAdded}
-              isModal={true}
-              onClose={() => setShowAddTask(false)}
-            />
-          </div>
-        </div>
-      )}
+{/* Add Task Modal */}
+      <InlineTaskModal 
+        isOpen={showAddTask}
+        onClose={() => setShowAddTask(false)}
+        listId="1"
+        onTaskAdded={handleTaskAdded}
+      />
     </div>
   );
 };
