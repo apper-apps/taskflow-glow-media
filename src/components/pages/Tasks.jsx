@@ -18,13 +18,23 @@ const Tasks = () => {
 
 return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 font-display">
-          All Tasks
-        </h1>
-        <p className="text-gray-600 mt-1">
-          Manage and organize your tasks
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 font-display">
+            All Tasks
+          </h1>
+          <p className="text-gray-600 mt-1">
+            Manage and organize your tasks
+          </p>
+        </div>
+        <Button
+          variant="primary"
+          size="sm"
+          className="flex items-center gap-2 shrink-0"
+        >
+          <ApperIcon name="Plus" className="h-4 w-4" />
+          <span className="hidden sm:inline">Add Task</span>
+        </Button>
       </div>
       {/* Filter Buttons */}
       <div className="flex flex-wrap gap-2">
