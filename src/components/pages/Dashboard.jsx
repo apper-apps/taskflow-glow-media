@@ -158,7 +158,7 @@ const Dashboard = () => {
           </h2>
         </div>
         
-<TaskList searchTerm={searchTerm} showCompleted={false} />
+<TaskList searchTerm={searchTerm} showCompleted={false} showQuickAdd={false} />
       </motion.div>
 
 {/* Add Task Modal */}

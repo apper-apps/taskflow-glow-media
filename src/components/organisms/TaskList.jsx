@@ -9,7 +9,7 @@ import Tasks from "@/components/pages/Tasks";
 import QuickAddTask from "@/components/molecules/QuickAddTask";
 import { taskService } from "@/services/api/taskService";
 
-const TaskList = ({ listId, searchTerm = "", showCompleted = true }) => {
+const TaskList = ({ listId, searchTerm = "", showCompleted = true, showQuickAdd = true }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -63,9 +63,8 @@ const TaskList = ({ listId, searchTerm = "", showCompleted = true }) => {
 
 return (
     <div className="space-y-6">
-      <QuickAddTask listId={listId} onTaskAdded={handleTaskAdded} />
+      {showQuickAdd && <QuickAddTask listId={listId} onTaskAdded={handleTaskAdded} />}
       <TaskModal />
-      
       {filteredTasks.length === 0 ? (
         <Empty 
           title="No tasks found"
