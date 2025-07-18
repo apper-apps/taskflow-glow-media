@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import TaskModal from "@/components/organisms/TaskModal";
 import Empty from "@/components/ui/Empty";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import TaskItem from "@/components/organisms/TaskItem";
+import TaskModal from "@/components/organisms/TaskModal";
 import Tasks from "@/components/pages/Tasks";
-import QuickAddTask from "@/components/molecules/QuickAddTask";
 import { taskService } from "@/services/api/taskService";
-
 const TaskList = ({ listId, searchTerm = "", showCompleted = true, showQuickAdd = true }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,12 +38,8 @@ const TaskList = ({ listId, searchTerm = "", showCompleted = true, showQuickAdd 
     ));
   };
 
-  const handleTaskDelete = (taskId) => {
+const handleTaskDelete = (taskId) => {
     setTasks(prev => prev.filter(task => task.Id !== taskId));
-  };
-
-  const handleTaskAdded = (newTask) => {
-    setTasks(prev => [newTask, ...prev]);
   };
 
   const filteredTasks = tasks.filter(task => {
@@ -63,7 +57,6 @@ const TaskList = ({ listId, searchTerm = "", showCompleted = true, showQuickAdd 
 
 return (
     <div className="space-y-6">
-      {showQuickAdd && <QuickAddTask listId={listId} onTaskAdded={handleTaskAdded} />}
       <TaskModal />
       {filteredTasks.length === 0 ? (
         <Empty 
