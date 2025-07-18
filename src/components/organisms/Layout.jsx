@@ -6,6 +6,9 @@ import Header from "@/components/organisms/Header";
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [modalData, setModalData] = useState(null);
 
   const handleMenuClick = () => {
     setSidebarOpen(true);
@@ -19,6 +22,17 @@ const Layout = () => {
     setSearchTerm(term);
   };
 
+  const handleOpenModal = (type, data = null) => {
+    setModalType(type);
+    setModalData(data);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalType(null);
+    setModalData(null);
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex h-screen">
@@ -33,9 +47,16 @@ const Layout = () => {
             onSearch={handleSearch}
           />
           
-          <main className="flex-1 overflow-auto">
+<main className="flex-1 overflow-auto">
             <div className="p-6">
-              <Outlet context={{ searchTerm }} />
+              <Outlet context={{ 
+                searchTerm, 
+                openModal: handleOpenModal,
+                closeModal: handleCloseModal,
+                isModalOpen,
+                modalType,
+                modalData 
+              }} />
             </div>
           </main>
         </div>

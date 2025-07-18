@@ -2,13 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useOutletContext } from "react-router-dom";
-import Input from "@/components/atoms/Input";
 import Button from "@/components/atoms/Button";
-import Select from "@/components/atoms/Select";
 import FormField from "@/components/molecules/FormField";
 import ApperIcon from "@/components/ApperIcon";
 import { taskService } from "@/services/api/taskService";
-const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
+
+const TaskModal = () => {
+  const { isModalOpen, modalType, modalData, closeModal } = useOutletContext();
   const [formData, setFormData] = useState({
     title: "",
     priority: "medium",
@@ -36,7 +36,7 @@ const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
         dueDate: formData.dueDate || null,
         startDate: formData.startDate || null,
         notes: formData.notes.trim() || null,
-        listId: listId || "1",
+        listId: modalData?.listId || "1",
         completed: formData.status === "completed",
         categoryId: null,
       });
@@ -49,9 +49,11 @@ const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
         startDate: "",
         notes: ""
       });
-      onTaskAdded && onTaskAdded(newTask);
-      onClose();
+      closeModal();
       toast.success("Task added successfully!");
+      
+      // Trigger page refresh or callback if needed
+      window.location.reload();
     } catch (error) {
       toast.error("Failed to add task");
     } finally {
@@ -59,7 +61,7 @@ const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isModalOpen || modalType !== 'createTask') return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -77,7 +79,7 @@ const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={onClose}
+              onClick={closeModal}
               className="p-2"
             >
               <ApperIcon name="X" className="h-4 w-4" />
@@ -150,7 +152,7 @@ const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
               <Button
                 type="button"
                 variant="ghost"
-                onClick={onClose}
+                onClick={closeModal}
                 disabled={isLoading}
               >
                 Cancel
@@ -175,120 +177,4 @@ const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
   );
 };
 
-const QuickAddTask = ({ listId, onTaskAdded }) => {
-  const { openModal } = useOutletContext();
-  const [title, setTitle] = useState("");
-  const [isExpanded, setIsExpanded] = useState(false);
-
-const handleQuickAdd = async (e) => {
-    e.preventDefault();
-    if (!title.trim()) return;
-
-    try {
-      const newTask = await taskService.create({
-        title: title.trim(),
-        priority: "medium",
-        listId: listId || "1",
-        completed: false,
-        dueDate: null,
-        categoryId: null,
-      });
-
-      setTitle("");
-      setIsExpanded(false);
-      onTaskAdded && onTaskAdded(newTask);
-      toast.success("Task added successfully!");
-    } catch (error) {
-      toast.error("Failed to add task");
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleQuickAdd(e);
-    }
-    if (e.key === "Escape") {
-      setIsExpanded(false);
-      setTitle("");
-    }
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
->
-      <form onSubmit={handleQuickAdd} className="p-4">
-        <div className="flex items-center gap-3">
-          <ApperIcon name="Plus" className="h-5 w-5 text-gray-400" />
-          <Input
-            type="text"
-            placeholder="Add a new task..."
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onFocus={() => setIsExpanded(true)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 border-none bg-transparent focus:ring-0 focus:outline-none"
-          />
-        </div>
-
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ 
-            height: isExpanded ? "auto" : 0, 
-            opacity: isExpanded ? 1 : 0 
-          }}
-          transition={{ duration: 0.2 }}
-          className="overflow-hidden"
-        >
-<div className="pt-4 space-y-3">
-            <div className="flex items-center gap-2 pt-2">
-              <Button
-                type="submit"
-                size="sm"
-                disabled={!title.trim()}
-                className="flex items-center gap-2"
-              >
-                <ApperIcon name="Plus" className="h-4 w-4" />
-                Quick Add
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={() => openModal('createTask', { listId })}
-                className="flex items-center gap-2"
-              >
-                <ApperIcon name="Settings" className="h-4 w-4" />
-                Add Task
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setIsExpanded(false);
-                  setTitle("");
-                }}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </motion.div>
-</form>
-      {openModal && (
-        <TaskModal
-          isOpen={openModal === 'createTask'}
-          onClose={() => openModal(null)}
-          listId={listId}
-          onTaskAdded={onTaskAdded}
-        />
-      )}
-    </motion.div>
-  );
-};
-
-export default QuickAddTask;
+export default TaskModal;

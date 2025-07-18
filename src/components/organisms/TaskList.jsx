@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import TaskItem from "@/components/organisms/TaskItem";
-import QuickAddTask from "@/components/molecules/QuickAddTask";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import TaskModal from "@/components/organisms/TaskModal";
 import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import TaskItem from "@/components/organisms/TaskItem";
+import Tasks from "@/components/pages/Tasks";
+import QuickAddTask from "@/components/molecules/QuickAddTask";
 import { taskService } from "@/services/api/taskService";
 
 const TaskList = ({ listId, searchTerm = "", showCompleted = true }) => {
@@ -59,9 +61,10 @@ const TaskList = ({ listId, searchTerm = "", showCompleted = true }) => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadTasks} />;
 
-  return (
+return (
     <div className="space-y-6">
       <QuickAddTask listId={listId} onTaskAdded={handleTaskAdded} />
+      <TaskModal />
       
       {filteredTasks.length === 0 ? (
         <Empty 
