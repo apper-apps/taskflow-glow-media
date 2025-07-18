@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { motion } from "framer-motion";
 import TaskList from "@/components/organisms/TaskList";
+import QuickAddTask from "@/components/molecules/QuickAddTask";
 import ApperIcon from "@/components/ApperIcon";
 import { taskService } from "@/services/api/taskService";
 import { listService } from "@/services/api/listService";
@@ -17,7 +18,7 @@ const Dashboard = () => {
     today: 0,
   });
   const [loading, setLoading] = useState(true);
-
+  const [showAddTask, setShowAddTask] = useState(false);
   const loadStats = async () => {
     try {
       setLoading(true);
@@ -44,6 +45,10 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
+};
+
+  const handleTaskAdded = () => {
+    loadStats(); // Refresh stats when a new task is added
   };
 
   useEffect(() => {
@@ -83,7 +88,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 font-display">
             Good morning! 👋
@@ -91,6 +96,17 @@ const Dashboard = () => {
           <p className="text-gray-600 mt-1">
             {format(new Date(), "EEEE, MMMM d, yyyy")}
           </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setShowAddTask(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+          >
+            <ApperIcon name="Plus" className="h-4 w-4" />
+            Add Task
+          </motion.button>
         </div>
       </div>
 
@@ -142,8 +158,22 @@ const Dashboard = () => {
           </h2>
         </div>
         
-        <TaskList searchTerm={searchTerm} showCompleted={false} />
+<TaskList searchTerm={searchTerm} showCompleted={false} />
       </motion.div>
+
+      {/* Quick Add Task Modal */}
+      {showAddTask && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="w-full max-w-md">
+            <QuickAddTask 
+              listId="1" 
+              onTaskAdded={handleTaskAdded}
+              isModal={true}
+              onClose={() => setShowAddTask(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

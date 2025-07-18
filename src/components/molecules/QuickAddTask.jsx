@@ -1,14 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useOutletContext } from "react-router-dom";
+import ApperIcon from "@/components/ApperIcon";
+import TaskModal from "@/components/organisms/TaskModal";
+import FormField from "@/components/molecules/FormField";
+import Select from "@/components/atoms/Select";
 import Input from "@/components/atoms/Input";
 import Button from "@/components/atoms/Button";
-import Select from "@/components/atoms/Select";
-import FormField from "@/components/molecules/FormField";
-import ApperIcon from "@/components/ApperIcon";
 import { taskService } from "@/services/api/taskService";
-const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
+
+const InlineTaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
   const [formData, setFormData] = useState({
     title: "",
     priority: "medium",
@@ -175,11 +177,12 @@ const TaskModal = ({ isOpen, onClose, listId, onTaskAdded }) => {
   );
 };
 
-const QuickAddTask = ({ listId, onTaskAdded }) => {
-  const { openModal } = useOutletContext();
+const QuickAddTask = ({ listId, onTaskAdded, isModal = false, onClose }) => {
+  const context = useOutletContext();
+  const { openModal } = context || {};
   const [title, setTitle] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const [showTaskModal, setShowTaskModal] = useState(false);
 const handleQuickAdd = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
@@ -214,12 +217,27 @@ const handleQuickAdd = async (e) => {
     }
   };
 
-  return (
+return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
->
+      className={`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden ${
+        isModal ? 'shadow-xl' : ''
+      }`}
+    >
+      {isModal && (
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900 font-display">
+            Add New Task
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ApperIcon name="X" className="h-4 w-4 text-gray-500" />
+          </button>
+        </div>
+      )}
       <form onSubmit={handleQuickAdd} className="p-4">
         <div className="flex items-center gap-3">
           <ApperIcon name="Plus" className="h-5 w-5 text-gray-400" />
@@ -240,10 +258,10 @@ const handleQuickAdd = async (e) => {
             height: isExpanded ? "auto" : 0, 
             opacity: isExpanded ? 1 : 0 
           }}
-          transition={{ duration: 0.2 }}
+transition={{ duration: 0.2 }}
           className="overflow-hidden"
         >
-<div className="pt-4 space-y-3">
+          <div className="pt-4 space-y-3">
             <div className="flex items-center gap-2 pt-2">
               <Button
                 type="submit"
@@ -255,10 +273,9 @@ const handleQuickAdd = async (e) => {
                 Quick Add
               </Button>
               <Button
-                type="button"
                 variant="secondary"
                 size="sm"
-                onClick={() => openModal('createTask', { listId })}
+                onClick={() => setShowTaskModal(true)}
                 className="flex items-center gap-2"
               >
                 <ApperIcon name="Settings" className="h-4 w-4" />
@@ -278,15 +295,14 @@ const handleQuickAdd = async (e) => {
             </div>
           </div>
         </motion.div>
-</form>
-      {openModal && (
-        <TaskModal
-          isOpen={openModal === 'createTask'}
-          onClose={() => openModal(null)}
-          listId={listId}
-          onTaskAdded={onTaskAdded}
-        />
-      )}
+      </form>
+      
+      <TaskModal
+        isOpen={showTaskModal}
+        onClose={() => setShowTaskModal(false)}
+        listId={listId}
+        onTaskAdded={onTaskAdded}
+      />
     </motion.div>
   );
 };
