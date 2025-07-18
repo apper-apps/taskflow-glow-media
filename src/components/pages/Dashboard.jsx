@@ -105,15 +105,15 @@ const Dashboard = () => {
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200"
           >
             <div className="flex items-center justify-between">
-              <div>
+<div>
                 <p className="text-sm text-gray-600 font-medium">{card.title}</p>
-                <p className="text-3xl font-bold text-gray-900 mt-1">
+                <div className="text-3xl font-bold text-gray-900 mt-1">
                   {loading ? (
                     <div className="h-8 w-12 bg-gray-200 rounded animate-pulse"></div>
                   ) : (
                     card.value
                   )}
-                </p>
+                </div>
               </div>
               <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${card.bgColor} flex items-center justify-center`}>
                 <ApperIcon 
