@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { format, isPast, isToday } from "date-fns";
@@ -9,7 +9,7 @@ import Button from "@/components/atoms/Button";
 import { taskService } from "@/services/api/taskService";
 import { cn } from "@/utils/cn";
 
-const TaskItem = ({ task, onUpdate, onDelete }) => {
+const TaskItem = forwardRef(({ task, onUpdate, onDelete }, ref) => {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleToggleComplete = async () => {
@@ -45,7 +45,8 @@ const TaskItem = ({ task, onUpdate, onDelete }) => {
   const isDueToday = task.dueDate && isToday(new Date(task.dueDate));
 
   return (
-    <motion.div
+<motion.div
+      ref={ref}
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -103,7 +104,9 @@ const TaskItem = ({ task, onUpdate, onDelete }) => {
         </div>
       </div>
     </motion.div>
-  );
-};
+);
+});
+
+TaskItem.displayName = 'TaskItem';
 
 export default TaskItem;
